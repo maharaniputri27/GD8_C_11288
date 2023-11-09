@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'id_movie',
         'class',
@@ -18,5 +17,10 @@ class Ticket extends Model
     public function movie()
     {
         return $this->belongsTo(Movie::class, 'id_movie');
+    }
+
+    public function customer()
+    {
+        return $this->hasMany(Customer::class);
     }
 }

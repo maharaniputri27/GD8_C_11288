@@ -65,6 +65,12 @@
                                 <p> Ticket</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ url('customer') }}" class="nav-link">
+                                <i class="fa-solid fa-customer"></i>
+                                <p> Customer</p>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

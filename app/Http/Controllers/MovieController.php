@@ -38,13 +38,24 @@ class MovieController extends Controller
         $this->validate($request, [
         'title' => 'required',
         'director' => 'required',
-        'duration' => 'required'
+        'duration' => 'required',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
+         $input = $request->all();
+   
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/';
+            $gambarPoster = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $gambarPoster);
+            $input['image'] = "$gambarPoster";
+        }
+
     //Fungsi Simpan Data ke dalam Database
     Movie::create([
         'title' => $request->title,
         'director' => $request->director,
-        'duration' => $request->duration
+        'duration' => $request->duration,
+        'image' => $input['image'],
     ]);
     try{
         return redirect()->route('movie.index');
@@ -70,23 +81,32 @@ class MovieController extends Controller
     * @param int $id
     * @return void
     */
-    public function update(Request $request, $id)
-    {
-        $movie =Movie::find($id);
-        //validate form
+   public function update(Request $request, $id)
+{
+   $movie = Movie::find($id);
+
         $this->validate($request, [
             'title' => 'required',
             'director' => 'required',
-            'duration' => 'required'
-    ]);
-        $movie->update([
-            'title' => $request->title,
-            'director' => $request->director,
-            'duration' => $request->duration
-    ]);
-        return redirect()->route('movie.index')->with(['success' => 'Data 
-    Berhasil Diubah!']);
-    }
+            'duration' => 'required',
+            'image' => 'image|mimes:jpeg,jpg,gif,svg|max:2048',
+        ]);
+
+        $input = $request->all();
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/';
+            $gambarPoster = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $gambarPoster);
+            $input['image'] = "$gambarPoster";
+        } else {
+            unset($input['image']);
+        }
+
+        $movie->update($input);
+
+        return redirect()->route('movie.index')->with(['success' => 'Data Berhasil Diuah!']);
+}
+
     /**
     * destroy
     *

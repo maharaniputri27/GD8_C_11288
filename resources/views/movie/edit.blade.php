@@ -29,6 +29,20 @@
                                 @csrf
                                 @method('PUT')
 
+                            <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label class="font-weight-bold">Image</label>
+                                <img src="/images/{{ $movie->image }}" width="100px" class="mb-2">
+                                <input type="file" class="form-control @error('image') is-invalid @enderror" name="image">
+                                @error('image')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
                                         <label class="font-weight-bold">Title</label>
